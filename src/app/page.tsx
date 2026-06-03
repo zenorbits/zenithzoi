@@ -1,11 +1,13 @@
 // src/app/page.tsx
 import React from "react";
+import Cards from "../components/Cards";
+import CardsDescription from "../components/CardsDescription";
 
 const Page = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#111] font-mono text-white">
-      <main className="flex flex-col items-center justify-center min-h-screen px-6 text-center">
-        
+      {/* Hero Section */}
+      <section className="flex flex-col items-center justify-center min-h-screen px-6 text-center">
         {/* Logo */}
         <h1 className="text-4xl md:text-6xl font-bold text-[#A2E8DD] mb-6">
           ZenithZoi
@@ -33,10 +35,21 @@ const Page = () => {
             Learn More
           </button>
         </div>
+      </section>
 
+{/* Cards Section */}
+<section className="w-full px-6 py-16 flex">
+  {/* Fixed width card */}
+  <div className="basis-1/4 shrink-0">
+    <Cards />
+  </div>
 
+  {/* Description fills the rest */}
+  <div className="flex-1 ml-6">
+    <CardsDescription />
+  </div>
+</section>
 
-      </main>
     </div>
   );
 };
