@@ -63,17 +63,15 @@ const Page = () => {
   {qaItems.map((item, index) => (
     <div
       key={index}
-      className="flex items-start gap-6 flex-row"
+      className="flex flex-col md:flex-row items-start gap-6"
     >
-      {/* Card fixed on the left */}
-      <div className="basis-1/4 shrink-0">
-        <Cards
-        image ={item.image}
-        />
+      {/* Card fixed on the left (or top on mobile) */}
+      <div className="w-full md:basis-1/4 md:shrink-0">
+        <Cards image={item.image} />
       </div>
 
-      {/* Description always on the right */}
-      <div className="flex-1">
+      {/* Description always on the right (or below on mobile) */}
+      <div className="w-full md:flex-1">
         <CardsDescription
           question={item.question}
           answer={item.answer}
@@ -82,6 +80,7 @@ const Page = () => {
     </div>
   ))}
 </section>
+
 
 
     </div>
