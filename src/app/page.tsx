@@ -4,6 +4,26 @@ import Cards from "../components/Cards";
 import CardsDescription from "../components/CardsDescription";
 
 const Page = () => {
+
+ const qaItems = [
+  {
+    question: "What is ZenithZoi?",
+    answer: "ZenithZoi is your personal fitness companion — designed to help you track workouts, log meals, and transform your lifestyle with clarity. It’s more than just a tracker; it’s a lifestyle tool that helps you stay consistent, visualize progress, and build healthy habits over time.",
+    image: "/images/zenithzoi-overview.jpg"
+  },
+  {
+    question: "How does it keep me motivated?",
+    answer: "ZenithZoi keeps you motivated by showing your progress in real time. With a sleek dashboard, workout logs, and nutrition tracking, you’ll see how your daily efforts add up. It also provides reminders, insights, and milestones to keep you accountable and inspired to push further.",
+    image: "/images/zenithzoi-motivation.jpg"
+  },
+  {
+    question: "Why should I use ZenithZoi?",
+    answer: "Using ZenithZoi means having clarity and control over your fitness journey. It helps you stay consistent, accountable, and motivated while giving you a clear picture of your strengths and areas to improve. Whether you’re a beginner or an athlete, it adapts to your needs.",
+    image: "/images/zenithzoi-benefits.jpg"
+  }
+]
+
+
   return (
     <div className="relative min-h-screen w-full bg-[#111] font-mono text-white">
       {/* Hero Section */}
@@ -37,18 +57,32 @@ const Page = () => {
         </div>
       </section>
 
-{/* Cards Section */}
-<section className="w-full px-6 py-16 flex">
-  {/* Fixed width card */}
-  <div className="basis-1/4 shrink-0">
-    <Cards />
-  </div>
+      {/* Cards Section */}
+      {/* Cards Section */}
+<section className="w-full px-6 py-16 flex flex-col space-y-12">
+  {qaItems.map((item, index) => (
+    <div
+      key={index}
+      className="flex items-start gap-6 flex-row"
+    >
+      {/* Card fixed on the left */}
+      <div className="basis-1/4 shrink-0">
+        <Cards
+        image ={item.image}
+        />
+      </div>
 
-  {/* Description fills the rest */}
-  <div className="flex-1 ml-6">
-    <CardsDescription />
-  </div>
+      {/* Description always on the right */}
+      <div className="flex-1">
+        <CardsDescription
+          question={item.question}
+          answer={item.answer}
+        />
+      </div>
+    </div>
+  ))}
 </section>
+
 
     </div>
   );
