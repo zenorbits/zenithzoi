@@ -1,6 +1,5 @@
 import { getWorkOutCollection } from "@/lib/collections/workout";
 import { auth } from "@clerk/nextjs/server";
-import { error } from "console";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 

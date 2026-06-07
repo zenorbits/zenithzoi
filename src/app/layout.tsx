@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer"
 import { ClerkProvider } from "@clerk/nextjs";
 import { DM_Mono } from "next/font/google";
+import ReduxProvider from "@/components/ReduxProvider";
 const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"] });
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +35,11 @@ export default function RootLayout({
       >
 
         <body className="min-h-full flex flex-col">
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <ReduxProvider>        
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </ReduxProvider>
         </body>
 
       </html>
