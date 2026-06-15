@@ -30,15 +30,32 @@ const WorkoutsPage = () => {
     setExercises([...exercises, { name: '', sets: [{ setNumber: 1, reps: 0 }] }]);
   }
 
-  const addSet = (eIdx:number) => {
+  const addSet = (eIdx: number) => {
     const updated = [...exercises];
 
     updated[eIdx].sets.push({
-      setNumber:updated[eIdx].sets.length+1,
-      reps:0
+      setNumber: updated[eIdx].sets.length + 1,
+      reps: 0
     });
 
     setExercises(updated);
+  }
+
+  const removeExercise =(eIdx:number)=>{
+    
+    const updated =exercises.filter((_,index)=>index !== eIdx );
+
+    setExercises(updated);
+    
+  }
+
+  const removeSet = (eIdx:number,sIdx:number)=>{
+    
+    const updated = [...exercises];
+
+    updated[eIdx].sets = updated[eIdx].sets.filter((_,index)=>index!==sIdx);
+
+      setExercises(updated);
   }
 
   return (
