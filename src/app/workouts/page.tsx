@@ -41,23 +41,38 @@ const WorkoutsPage = () => {
     setExercises(updated);
   }
 
-  const removeExercise =(eIdx:number)=>{
-    
-    const updated =exercises.filter((_,index)=>index !== eIdx );
+  const removeExercise = (eIdx: number) => {
+
+    const updated = exercises.filter((_, index) => index !== eIdx);
 
     setExercises(updated);
-    
+
   }
 
-  const removeSet = (eIdx:number,sIdx:number)=>{
-    
+  const removeSet = (eIdx: number, sIdx: number) => {
+
     const updated = [...exercises];
 
-    updated[eIdx].sets = updated[eIdx].sets.filter((_,index)=>index!==sIdx);
+    updated[eIdx].sets = updated[eIdx].sets.filter((_, index) => index !== sIdx).map((set,index)=>({...set,setNumber:index+1}));
 
-      setExercises(updated);
+    setExercises(updated);
   }
 
+  const updateName = (eIdx: number, name: string) => {
+
+    const updated = [...exercises];
+
+    updated[eIdx].name = name;
+
+    setExercises(updated);
+  }
+
+  const updateSet = (eIdx: number, sIdx: number, field: "reps" | "weight", value: number) => {
+    const updated = [...exercises];
+    updated[eIdx].sets[sIdx][field] = value;
+    setExercises(updated);
+
+  }
   return (
     <div>page</div>
   )
