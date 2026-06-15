@@ -48,5 +48,5 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         userId,
     });
 
-return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
 }
