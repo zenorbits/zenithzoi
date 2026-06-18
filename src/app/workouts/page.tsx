@@ -53,7 +53,7 @@ const WorkoutsPage = () => {
 
     const updated = [...exercises];
 
-    updated[eIdx].sets = updated[eIdx].sets.filter((_, index) => index !== sIdx).map((set,index)=>({...set,setNumber:index+1}));
+    updated[eIdx].sets = updated[eIdx].sets.filter((_, index) => index !== sIdx).map((set, index) => ({ ...set, setNumber: index + 1 }));
 
     setExercises(updated);
   }
@@ -74,7 +74,23 @@ const WorkoutsPage = () => {
 
   }
   return (
-    <div>page</div>
+    <div className='relative min-h-screen w-full bg-[#111] font-mono text-white'>
+      {/* Header */}
+      <div className="border-b-2 border-[#A2E8DD] px-4 py-6 ">
+        <h1 className='text-[#A2E8DD] text-3xl font-bold uppercase'>Workout Log</h1>
+        <p className='text-gray-400 text-sm'>Track your grind. No excuses.</p>
+      </div>
+      {/* Buttons */}
+
+      <div className='flex '>
+        <button className={`border-2 border-[#A2E8DD] px-6 py-4 ${activeTab === 'log' ? 'bg-[#A2E8DD] text-black' : 'bg-[#111]'}`} onClick={() => {
+          setActiveTab('log')
+        }}>Log Workout</button>
+        <button className={`border-2 border-[#A2E8DD] px-6 py-4 ${activeTab === 'past' ? 'bg-[#A2E8DD] text-black' : 'bg-[#111]'}`} onClick={() => {
+          setActiveTab('past')
+        }}>Past Workout</button>
+      </div>
+    </div>
   )
 }
 
