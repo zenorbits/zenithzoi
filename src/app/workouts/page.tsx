@@ -122,16 +122,37 @@ const WorkoutsPage = () => {
                       Remove
                     </button>
                   </div>
-                    {
-                  ex.sets.map((set, sIdx) => (
-                    <div key={sIdx}>
-                      <span>{set.setNumber}</span>
-                      <input type="text" />
-                    </div>
-                  ))
-                }
+                  {
+                    ex.sets.map((set, sIdx) => (
+                      <div key={sIdx}>
+                        <div className='flex gap-2 items-center'>
+                          <span className="text-[#A2E8DD] font-bold">{set.setNumber}</span>
+                          <input
+                            type="number"
+                            placeholder="Reps"
+                            value={set.reps || ''}
+                            onChange={(e) => updateSet(eIdx, sIdx, "reps", +e.target.value)}
+                            className='border-2 border-[#A2E8DD]/40 focus:outline-none focus:border-[#A2E8DD] w-1/2 rounded-full px-4 py-1'
+                          />
+                          <input
+                            type="number"
+                            placeholder="kg"
+                            value={set.weight || ''}
+                            onChange={(e) => updateSet(eIdx, sIdx, "weight", +e.target.value)}
+                            className='border-2 border-[#A2E8DD]/40 focus:outline-none focus:border-[#A2E8DD] w-1/2 rounded-full px-4 py-1'
+                          />
+                          <button
+                            onClick={() => removeSet(eIdx, sIdx)}
+                            className='text-red-500 hover:text-red-400 text-xs uppercase tracking-widest border border-red-500/40 hover:border-red-400 px-3 py-2 rounded transition-all'
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  }
                 </div>
-               
+
               ))
             }
 
