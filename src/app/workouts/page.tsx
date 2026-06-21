@@ -90,6 +90,56 @@ const WorkoutsPage = () => {
           setActiveTab('past')
         }}>Past Workout</button>
       </div>
+      {/* Content */}
+      <div>
+        {activeTab == 'log' ? (
+          <div className='space-y-6'>
+            <div>
+              <label className='text-xs uppercase tracking-widest text-[#A2E8DD] mb-2 block'>Date:</label>
+              <input type="date"
+                className='bg-black border-2 border-[#A2E8DD]/40 text-white px-4 py-3 rounded-full w-full focus:outline-none focus:border-[#A2E8DD]'
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+            {
+              exercises.map((ex, eIdx) => (
+                <div key={eIdx} className="border-2 border-[#A2E8DD]/40 rounded-lg p-4 space-y-3">
+                  <div className='flex gap-2 items-center'>
+                    <span className='text-[#A2E8DD] font-bold text-lg'>
+                      {eIdx + 1}
+                    </span>
+                    <input type="text"
+                      placeholder='EXERCISE NAME'
+                      value={ex.name}
+                      className='border-2 border-[#A2E8DD]/40 focus:outline-none focus:border-[#A2E8DD] w-full rounded-full px-4 py-1'
+                      onChange={(e) => updateName(eIdx, e.target.value)}
+                    />
+                    <button
+                      onClick={() => removeExercise(eIdx)}
+                      className='text-red-500 hover:text-red-400 text-xs uppercase tracking-widest border border-red-500/40 hover:border-red-400 px-3 py-2 rounded transition-all'
+                    >
+                      Remove
+                    </button>
+                  </div>
+                    {
+                  ex.sets.map((set, sIdx) => (
+                    <div key={sIdx}>
+                      <span>{set.setNumber}</span>
+                      <input type="text" />
+                    </div>
+                  ))
+                }
+                </div>
+               
+              ))
+            }
+
+          </div>
+        ) : (
+          <div>Past Workout will go here</div>
+        )}
+      </div>
     </div>
   )
 }
