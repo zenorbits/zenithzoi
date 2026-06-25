@@ -16,7 +16,6 @@ interface Exercise {
   notes?: string;
 }
 
-
 const WorkoutsPage = () => {
 
   const [activeTab, setActiveTab] = useState<Tab>('log');
@@ -32,38 +31,28 @@ const WorkoutsPage = () => {
 
   const addSet = (eIdx: number) => {
     const updated = [...exercises];
-
     updated[eIdx].sets.push({
       setNumber: updated[eIdx].sets.length + 1,
       reps: 0
     });
-
     setExercises(updated);
   }
 
   const removeExercise = (eIdx: number) => {
-
-    const updated = exercises.filter((_, index) => index !== eIdx);
-
-    setExercises(updated);
-
+    setExercises(exercises.filter((_, index) => index !== eIdx));
   }
 
   const removeSet = (eIdx: number, sIdx: number) => {
-
     const updated = [...exercises];
-
-    updated[eIdx].sets = updated[eIdx].sets.filter((_, index) => index !== sIdx).map((set, index) => ({ ...set, setNumber: index + 1 }));
-
+    updated[eIdx].sets = updated[eIdx].sets
+      .filter((_, index) => index !== sIdx)
+      .map((set, index) => ({ ...set, setNumber: index + 1 }));
     setExercises(updated);
   }
 
   const updateName = (eIdx: number, name: string) => {
-
     const updated = [...exercises];
-
     updated[eIdx].name = name;
-
     setExercises(updated);
   }
 
@@ -71,90 +60,126 @@ const WorkoutsPage = () => {
     const updated = [...exercises];
     updated[eIdx].sets[sIdx][field] = value;
     setExercises(updated);
-
   }
+
   return (
     <div className='relative min-h-screen w-full bg-[#111] font-mono text-white'>
-      {/* Header */}
-      <div className="border-b-2 border-[#A2E8DD] px-4 py-6 ">
-        <h1 className='text-[#A2E8DD] text-3xl font-bold uppercase'>Workout Log</h1>
-        <p className='text-gray-400 text-sm'>Track your grind. No excuses.</p>
-      </div>
-      {/* Buttons */}
 
-      <div className='flex '>
-        <button className={`border-2 border-[#A2E8DD] px-6 py-4 ${activeTab === 'log' ? 'bg-[#A2E8DD] text-black' : 'bg-[#111]'}`} onClick={() => {
-          setActiveTab('log')
-        }}>Log Workout</button>
-        <button className={`border-2 border-[#A2E8DD] px-6 py-4 ${activeTab === 'past' ? 'bg-[#A2E8DD] text-black' : 'bg-[#111]'}`} onClick={() => {
-          setActiveTab('past')
-        }}>Past Workout</button>
+      {/* Header */}
+      <div className="border-b-2 border-[#A2E8DD] px-4 py-6">
+        <h1 className='text-[#A2E8DD] text-3xl font-bold uppercase tracking-widest'>Workout Log</h1>
+        <p className='text-gray-500 text-xs mt-1 uppercase tracking-widest'>Track your grind. No excuses.</p>
       </div>
+
+      {/* Tabs */}
+      <div className='flex border-b border-white/10'>
+        <button
+          className={`px-6 py-3 text-xs uppercase tracking-widest font-bold transition-all ${activeTab === 'log' ? 'bg-[#A2E8DD] text-black' : 'text-gray-500 hover:text-[#A2E8DD]'}`}
+          onClick={() => setActiveTab('log')}
+        >
+          Log Workout
+        </button>
+        <button
+          className={`px-6 py-3 text-xs uppercase tracking-widest font-bold transition-all ${activeTab === 'past' ? 'bg-[#A2E8DD] text-black' : 'text-gray-500 hover:text-[#A2E8DD]'}`}
+          onClick={() => setActiveTab('past')}
+        >
+          Past Workout
+        </button>
+      </div>
+
       {/* Content */}
-      <div>
-        {activeTab == 'log' ? (
-          <div className='space-y-6'>
+      <div className='p-4 md:p-6 max-w-2xl mx-auto'>
+        {activeTab === 'log' ? (
+          <div className='space-y-4'>
+
+            {/* Date */}
             <div>
-              <label className='text-xs uppercase tracking-widest text-[#A2E8DD] mb-2 block'>Date:</label>
-              <input type="date"
-                className='bg-black border-2 border-[#A2E8DD]/40 text-white px-4 py-3 rounded-full w-full focus:outline-none focus:border-[#A2E8DD]'
+              <label className='text-xs uppercase tracking-widest text-[#A2E8DD] mb-2 block'>Date</label>
+              <input
+                type="date"
+                className='bg-[#1a1a1a] text-white px-4 py-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-[#A2E8DD] text-sm'
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
-            {
-              exercises.map((ex, eIdx) => (
-                <div key={eIdx} className="border-2 border-[#A2E8DD]/40 rounded-lg p-4 space-y-3">
-                  <div className='flex gap-2 items-center'>
-                    <span className='text-[#A2E8DD] font-bold text-lg'>
-                      {eIdx + 1}
-                    </span>
-                    <input type="text"
-                      placeholder='EXERCISE NAME'
-                      value={ex.name}
-                      className='border-2 border-[#A2E8DD]/40 focus:outline-none focus:border-[#A2E8DD] w-full rounded-full px-4 py-1'
-                      onChange={(e) => updateName(eIdx, e.target.value)}
-                    />
-                    <button
-                      onClick={() => removeExercise(eIdx)}
-                      className='text-red-500 hover:text-red-400 text-xs uppercase tracking-widest border border-red-500/40 hover:border-red-400 px-3 py-2 rounded transition-all'
-                    >
-                      Remove
-                    </button>
-                  </div>
-                  {
-                    ex.sets.map((set, sIdx) => (
-                      <div key={sIdx}>
-                        <div className='flex gap-2 items-center'>
-                          <span className="text-[#A2E8DD] font-bold">{set.setNumber}</span>
-                          <input
-                            type="number"
-                            placeholder="Reps"
-                            value={set.reps || ''}
-                            onChange={(e) => updateSet(eIdx, sIdx, "reps", +e.target.value)}
-                            className='border-2 border-[#A2E8DD]/40 focus:outline-none focus:border-[#A2E8DD] w-1/2 rounded-full px-4 py-1'
-                          />
-                          <input
-                            type="number"
-                            placeholder="kg"
-                            value={set.weight || ''}
-                            onChange={(e) => updateSet(eIdx, sIdx, "weight", +e.target.value)}
-                            className='border-2 border-[#A2E8DD]/40 focus:outline-none focus:border-[#A2E8DD] w-1/2 rounded-full px-4 py-1'
-                          />
-                          <button
-                            onClick={() => removeSet(eIdx, sIdx)}
-                            className='text-red-500 hover:text-red-400 text-xs uppercase tracking-widest border border-red-500/40 hover:border-red-400 px-3 py-2 rounded transition-all'
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  }
+
+            {/* Exercises */}
+            {exercises.map((ex, eIdx) => (
+              <div key={eIdx} className="bg-[#1a1a1a] rounded-xl p-4 space-y-3">
+
+                {/* Exercise header */}
+                <div className='flex gap-2 items-center'>
+                  <span className='text-[#A2E8DD] font-bold text-sm w-6'>
+                    {eIdx + 1}
+                  </span>
+                  <input
+                    type="text"
+                    placeholder='Exercise name'
+                    value={ex.name}
+                    className='bg-[#222] text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#A2E8DD] w-full rounded px-3 py-2 placeholder-gray-600'
+                    onChange={(e) => updateName(eIdx, e.target.value)}
+                  />
+                  <button
+                    onClick={() => removeExercise(eIdx)}
+                    className='text-red-500/60 hover:text-red-400 text-xs transition-all shrink-0'
+                  >
+                    ✕
+                  </button>
                 </div>
 
-              ))
-            }
+                {/* Sets header */}
+                <div className='grid grid-cols-3 gap-2 text-xs uppercase tracking-widest text-gray-600 px-7'>
+                  <span>Set</span>
+                  <span>Reps</span>
+                  <span>kg</span>
+                </div>
+
+                {/* Sets */}
+                {ex.sets.map((set, sIdx) => (
+                  <div key={sIdx} className='grid grid-cols-3 gap-2 items-center px-7'>
+                    <span className="text-[#A2E8DD] text-sm font-bold">{set.setNumber}</span>
+                    <input
+                      type="number"
+                      placeholder="0"
+                      value={set.reps || ''}
+                      onChange={(e) => updateSet(eIdx, sIdx, "reps", +e.target.value)}
+                      className='bg-[#222] text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#A2E8DD] rounded px-3 py-1 placeholder-gray-700 w-full'
+                    />
+                    <div className='flex items-center gap-1'>
+                      <input
+                        type="number"
+                        placeholder="—"
+                        value={set.weight || ''}
+                        onChange={(e) => updateSet(eIdx, sIdx, "weight", +e.target.value)}
+                        className='bg-[#222] text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#A2E8DD] rounded px-3 py-1 placeholder-gray-700 w-full'
+                      />
+                      <button
+                        onClick={() => removeSet(eIdx, sIdx)}
+                        className='text-gray-700 hover:text-red-400 text-xs transition-all'
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Add Set */}
+                <button
+                  onClick={() => addSet(eIdx)}
+                  className='text-xs uppercase tracking-widest text-[#A2E8DD]/60 hover:text-[#A2E8DD] w-full py-1 transition-all text-center'
+                >
+                  + Add Set
+                </button>
+              </div>
+            ))}
+
+            {/* Add Exercise */}
+            <button
+              onClick={addExercise}
+              className='w-full bg-[#1a1a1a] hover:bg-[#222] rounded-xl py-4 text-[#A2E8DD] transition-all text-xs uppercase tracking-widest font-bold'
+            >
+              + Add Exercise
+            </button>
 
           </div>
         ) : (
