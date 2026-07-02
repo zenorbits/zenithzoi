@@ -1,5 +1,6 @@
 "use client"
 
+import { useAddWorkoutMutation } from '@/store/api/workoutApi';
 import React, { useState } from 'react'
 
 type Tab = "log" | "past";
@@ -16,7 +17,10 @@ interface Exercise {
   notes?: string;
 }
 
+
+
 const WorkoutsPage = () => {
+
 
   const [activeTab, setActiveTab] = useState<Tab>('log');
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
@@ -24,6 +28,8 @@ const WorkoutsPage = () => {
     { name: "", sets: [{ setNumber: 1, reps: 0 }] }
   ]);
   const [workoutNotes, setWorkoutNotes] = useState("");
+
+  const [addWorkout, { isLoading }] = useAddWorkoutMutation();
 
   const addExercise = () => {
     setExercises([...exercises, { name: '', sets: [{ setNumber: 1, reps: 0 }] }]);
@@ -60,6 +66,18 @@ const WorkoutsPage = () => {
     const updated = [...exercises];
     updated[eIdx].sets[sIdx][field] = value;
     setExercises(updated);
+  }
+
+  const saveWorkout = async () => {
+    await addWorkout({
+      date,
+      exercises,
+      notes: workoutNotes
+    });
+
+    setExercises([{ name: "", sets: [{ setNumber: 1, reps: 0 }] }]);
+    setWorkoutNotes("");
+    setDate(new Date().toISOString().split("T")[0]);
   }
 
   return (
@@ -179,6 +197,28 @@ const WorkoutsPage = () => {
               className='w-full bg-[#1a1a1a] hover:bg-[#222] rounded-xl py-4 text-[#A2E8DD] transition-all text-xs uppercase tracking-widest font-bold'
             >
               + Add Exercise
+            </button>
+            {/* Notes */}
+            <div>
+              <label className='text-xs uppercase tracking-widest text-[#A2E8DD] mb-2 block'>
+                Notes (Optional)
+              </label>
+              <textarea
+                placeholder='How did it feel? Any PRs today?'
+                rows={3}
+                value={workoutNotes}
+                onChange={(e) => setWorkoutNotes(e.target.value)}
+                className='bg-[#1a1a1a] text-white text-sm w-full rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#A2E8DD] placeholder-gray-600 resize-none'
+              />
+            </div>
+
+            {/* Save Button */}
+            <button
+              onClick={saveWorkout}
+              disabled={isLoading}
+              className='w-full bg-[#A2E8DD] text-black font-bold uppercase tracking-widest py-4 rounded-xl hover:bg-[#5cb2a5] transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed'
+            >
+              {isLoading ? "Saving..." : "Save Workout"}
             </button>
 
           </div>
